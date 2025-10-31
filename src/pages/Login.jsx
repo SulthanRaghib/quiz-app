@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { getData, saveData } from "../utils/storage";
+import { getData, saveData, clearAll } from "../utils/storage";
 import { fetchCategories } from "../api/opentdb";
 
 export default function Login() {
@@ -12,14 +12,16 @@ export default function Login() {
 
   const handleLogin = () => {
     if (username.trim() === "") return alert("Masukkan nama terlebih dahulu");
+    const savedUser = getData("quizUser");
+    // If a different user logs in, clear previous user's stored data
+    if (savedUser && savedUser !== username) {
+      clearAll();
+    }
     saveData("quizUser", username);
     saveData("quizCategory", { id: Number(categoryId) || 0 });
     saveData("quizDifficulty", difficulty || "");
     navigate("/quiz");
   };
-
-  const existingUser = getData("quizUser");
-  if (existingUser) navigate("/quiz");
 
   useEffect(() => {
     fetchCategories().then((cats) => setCategories(cats || []));
@@ -27,6 +29,8 @@ export default function Login() {
     if (savedCat && savedCat.id) setCategoryId(savedCat.id);
     const savedDiff = getData("quizDifficulty");
     if (savedDiff) setDifficulty(savedDiff);
+    const savedUser = getData("quizUser");
+    if (savedUser) setUsername(savedUser);
   }, []);
 
   return (
@@ -68,6 +72,7 @@ export default function Login() {
               Mulai
             </button>
           </div>
+          {/* History is shown only on the Result page */}
         </div>
       </div>
     </div>

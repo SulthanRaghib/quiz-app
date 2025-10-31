@@ -1,6 +1,8 @@
+import { useEffect, useState } from "react";
 import { useQuiz } from "../context/QuizContext";
-import { clearAll, removeData } from "../utils/storage";
+import { clearAll, removeData, getData, saveData } from "../utils/storage";
 import { useNavigate } from "react-router-dom";
+import HistoryList from "../components/HistoryList";
 
 export default function Result() {
   const { answers, score, resetQuiz, questions } = useQuiz();
@@ -9,6 +11,43 @@ export default function Result() {
   const total = questions.length;
   const correct = score;
   const wrong = answers.length - score;
+  const [history, setHistory] = useState([]);
+
+  // Save result to per-user history (localStorage) when Result mounts
+  useEffect(() => {
+    const user = getData("quizUser");
+    if (!user) return;
+
+    const catObj = getData("quizCategory");
+    const category = catObj && catObj.id ? catObj.id : null;
+    const difficulty = getData("quizDifficulty") || "";
+
+    const entry = {
+      date: new Date().toISOString(),
+      total,
+      correct,
+      wrong,
+      answered: answers.length,
+      category,
+      difficulty,
+    };
+
+    const key = `quizHistory_${user}`;
+    const existing = getData(key) || [];
+
+    // Avoid storing duplicate consecutive entries
+    const first = existing[0];
+    if (first && JSON.stringify(first) === JSON.stringify(entry)) {
+      // still set history from existing
+      setHistory(existing.slice(0, 10));
+      return;
+    }
+
+    // Prepend new entry and keep only the 10 most recent
+    const next = [entry, ...existing].slice(0, 10);
+    saveData(key, next);
+    setHistory(next);
+  }, []);
 
   const handleRestart = () => {
     resetQuiz();
@@ -40,6 +79,9 @@ export default function Result() {
             <button onClick={handleLogout} className="btn-secondary">
               Logout
             </button>
+          </div>
+          <div className="mt-6">
+            <HistoryList history={history} />
           </div>
         </div>
       </div>
