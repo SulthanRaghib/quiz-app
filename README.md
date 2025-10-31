@@ -1,72 +1,68 @@
-Quiz App (React + Vite)
+# Quiz App (React + Vite)
 
-Lightweight quiz application built with React and Vite. Uses the Open Trivia DB (opentdb.com) to fetch questions and Tailwind CSS for styling. Designed for quick local development and simple per-user history stored in localStorage.
+Ringkas: aplikasi kuis ringan yang mengambil soal dari Open Trivia DB dan memakai Tailwind CSS untuk styling.
 
-Key points (short):
+## Fitur
 
-- Select username, category, and difficulty
-- Timed questions, answer feedback, and score tracking
-- Per-user history (localStorage), limited to 10 entries
-- Tailwind CSS (v4) with PostCSS adapter; migration to utilities completed for main UI
+- Pilih nama pengguna, kategori, dan tingkat kesulitan
+- Soal berdurasi (timer), umpan balik jawaban, dan perhitungan skor
+- Riwayat per pengguna (localStorage), dipangkas hingga 10 entri terbaru
 
-Prerequisites
+## Prasyarat
 
-- Node.js (recommended >= 20.19 — some environments may require >= 22.12)
-- npm (or compatible client)
+- Node.js (direkomendasikan >= 20.19)
+- npm
 
-Quick start (Windows cmd)
+## Instalasi & Jalankan (Windows cmd)
 
 ```cmd
 npm install
 npm run dev
 ```
 
-Build / Preview
+## Build & Preview
 
 ```cmd
 npm run build
 npm run preview
 ```
 
-Project structure (high level)
+## Struktur proyek (ringkas)
 
-- `src/` — React source files
-  - `api/opentdb.js` — API helpers to fetch categories and questions
-  - `components/` — UI components (QuestionCard, Timer, HistoryList, etc.)
-  - `pages/` — App pages (Login, Quiz, Result)
-  - `context/QuizContext.jsx` — quiz state management
-  - `utils/storage.js` — localStorage helpers (saveData, getData, removeData, clearAll)
-- `tailwind.config.cjs`, `postcss.config.cjs` — Tailwind/PostCSS config
-- `scripts/build_tailwind.cjs` — helper to generate `temp.css` for Tailwind verification
-
-LocalStorage keys
-
-- `quizUser` — current username
-- `quizCategory` — selected category object ({ id })
-- `quizDifficulty` — selected difficulty string
-- `quizData` — transient quiz progress (cleared on restart)
-- `quizHistory_<username>` — array of past results (most recent first, max 10)
-
-Notes & troubleshooting
-
-- Tailwind v4 requires the `@tailwindcss/postcss` adapter in `postcss.config.cjs`. If you see missing utilities in dev/build, ensure the content globs in `tailwind.config.cjs` include all JSX/TSX files.
-- If utilities appear missing, you can regenerate a diagnostic CSS file with:
-
-```cmd
-node scripts/build_tailwind.cjs
+```text
+├── src/
+│   ├── api/
+│   │   └── opentdb.js
+│   ├── components/
+│   │   ├── QuestionCard.jsx
+│   │   ├── Timer.jsx
+│   │   └── HistoryList.jsx
+│   ├── pages/
+│   │   ├── Login.jsx
+│   │   ├── Quiz.jsx
+│   │   └── Result.jsx
+│   ├── context/
+│   │   └── QuizContext.jsx
+│   └── utils/
+│       └── storage.js
+├── tailwind.config.cjs
+├── postcss.config.cjs
+└── package.json
 ```
 
-- If you change Node versions, restart your terminal/IDE to pick up the active Node in PATH.
+## Kunci localStorage
 
-License
+- `quizUser` — username saat ini
+- `quizCategory` — objek kategori yang dipilih ({ id })
+- `quizDifficulty` — string kesulitan
+- `quizData` — progres kuis sementara (dihapus saat restart)
+- `quizHistory_<username>` — array hasil kuis (terbaru di depan, max 10)
 
-- MIT
+## Catatan singkat
 
-Contact / next steps
+- `tailwind.config.cjs` dan `postcss.config.cjs` ada di repo; jika ingin membangun Tailwind secara manual, pastikan adapter `@tailwindcss/postcss` terpasang.
+- Tidak ada helper `scripts/build_tailwind.cjs` di repo saat ini.
 
-- For UI changes, edit components in `src/components` and `src/pages`.
-- For API or quiz behavior, see `src/api/opentdb.js` and `src/context/QuizContext.jsx`.
+## Lisensi
 
----
-
-Concise, focused, and ready for local development.
+MIT
