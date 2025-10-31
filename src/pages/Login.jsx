@@ -8,11 +8,13 @@ export default function Login() {
   const [username, setUsername] = useState("");
   const [categories, setCategories] = useState([]);
   const [categoryId, setCategoryId] = useState(0);
+  const [difficulty, setDifficulty] = useState("");
 
   const handleLogin = () => {
     if (username.trim() === "") return alert("Masukkan nama terlebih dahulu");
     saveData("quizUser", username);
     saveData("quizCategory", { id: Number(categoryId) || 0 });
+    saveData("quizDifficulty", difficulty || "");
     navigate("/quiz");
   };
 
@@ -23,6 +25,8 @@ export default function Login() {
     fetchCategories().then((cats) => setCategories(cats || []));
     const savedCat = getData("quizCategory");
     if (savedCat && savedCat.id) setCategoryId(savedCat.id);
+    const savedDiff = getData("quizDifficulty");
+    if (savedDiff) setDifficulty(savedDiff);
   }, []);
 
   return (
@@ -49,6 +53,16 @@ export default function Login() {
                   {c.name}
                 </option>
               ))}
+            </select>
+            <select
+              className="input"
+              value={difficulty}
+              onChange={(e) => setDifficulty(e.target.value)}
+            >
+              <option value="">Any Difficulty</option>
+              <option value="easy">Easy</option>
+              <option value="medium">Medium</option>
+              <option value="hard">Hard</option>
             </select>
             <button onClick={handleLogin} className="btn-primary btn-full">
               Mulai

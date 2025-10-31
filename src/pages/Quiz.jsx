@@ -34,10 +34,12 @@ export default function Quiz() {
       setRemainingTime(saved.remainingTime);
       setLoading(false);
     } else {
-      // read selected category from storage (saved at login)
+      // read selected category and difficulty from storage (saved at login)
       const savedCat = getData("quizCategory");
       const categoryId = savedCat && savedCat.id ? savedCat.id : null;
-      fetchQuestions(10, "multiple", categoryId).then((res) => {
+      const savedDiff = getData("quizDifficulty");
+      const difficulty = savedDiff || null;
+      fetchQuestions(10, "multiple", categoryId, difficulty).then((res) => {
         setQuestions(res);
         setLoading(false);
       });
