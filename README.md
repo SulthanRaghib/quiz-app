@@ -1,68 +1,87 @@
-# Quiz App (React + Vite)
+# Quiz App
 
-Ringkas: aplikasi kuis ringan yang mengambil soal dari Open Trivia DB dan memakai Tailwind CSS untuk styling.
+A modern quiz application built with React, Vite, and Zustand. This app allows users to log in, take quizzes, and view results, all while maintaining state using localStorage.
 
-## Fitur
+## Features
 
-- Pilih nama pengguna, kategori, dan tingkat kesulitan
-- Soal berdurasi (timer), umpan balik jawaban, dan perhitungan skor
-- Riwayat per pengguna (localStorage), dipangkas hingga 10 entri terbaru
+- User authentication (mocked for demonstration purposes).
+- Dynamic quiz questions fetched from Open Trivia Database (OpenTDB).
+- Timer for each quiz question.
+- State management using Zustand.
+- Responsive design with Tailwind CSS.
 
-## Prasyarat
+## Prerequisites
 
-- Node.js (direkomendasikan >= 20.19)
-- npm
+- Node.js (v16 or later)
+- npm (v7 or later)
 
-## Instalasi & Jalankan (Windows cmd)
+## Installation
 
-```cmd
-npm install
-npm run dev
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/SulthanRaghib/quiz-app.git
+   ```
+2. Navigate to the project directory:
+   ```bash
+   cd quiz-app
+   ```
+3. Install dependencies:
+   ```bash
+   npm install
+   ```
+
+## Scripts
+
+- `npm run dev`: Start the development server.
+- `npm run build`: Build the project for production.
+- `npm run preview`: Preview the production build.
+- `npm run lint`: Run ESLint to check for code quality.
+
+## Project Structure
+
 ```
-
-## Build & Preview
-
-```cmd
-npm run build
-npm run preview
-```
-
-## Struktur proyek (ringkas)
-
-```text
-├── src/
-│   ├── api/
-│   │   └── opentdb.js
-│   ├── components/
+quiz-app/
+├── public/               # Static assets
+├── src/                  # Source code
+│   ├── api/              # API helpers
+│   │   └── opentdb.js    # OpenTDB API integration
+│   ├── assets/           # Images and other assets
+│   │   └── react.svg     # React logo
+│   ├── components/       # Reusable components
+│   │   ├── HistoryList.jsx
 │   │   ├── QuestionCard.jsx
-│   │   ├── Timer.jsx
-│   │   └── HistoryList.jsx
-│   ├── pages/
+│   │   └── Timer.jsx
+│   ├── context/          # Context for global state
+│   │   └── QuizContext.jsx
+│   ├── pages/            # Application pages
 │   │   ├── Login.jsx
 │   │   ├── Quiz.jsx
 │   │   └── Result.jsx
-│   ├── context/
-│   │   └── QuizContext.jsx
-│   └── utils/
-│       └── storage.js
-├── tailwind.config.cjs
-├── postcss.config.cjs
-└── package.json
+│   ├── utils/            # Utility functions
+│   │   └── storage.js    # LocalStorage helpers
+│   ├── App.css           # Global styles
+│   ├── App.jsx           # Main app component
+│   ├── index.css         # Tailwind CSS imports
+│   └── main.jsx          # Application entry point
+├── .gitignore            # Git ignore rules
+├── eslint.config.js      # ESLint configuration
+├── index.html            # HTML template
+├── package.json          # Project metadata and scripts
+├── postcss.config.cjs    # PostCSS configuration
+├── tailwind.config.cjs   # Tailwind CSS configuration
+└── vite.config.js        # Vite configuration
 ```
 
-## Kunci localStorage
+## LocalStorage Keys
 
-- `quizUser` — username saat ini
-- `quizCategory` — objek kategori yang dipilih ({ id })
-- `quizDifficulty` — string kesulitan
-- `quizData` — progres kuis sementara (dihapus saat restart)
-- `quizHistory_<username>` — array hasil kuis (terbaru di depan, max 10)
+- `quiz-app-user`: Stores user authentication data.
+- `quiz-app-answers`: Stores user answers for the quiz.
 
-## Catatan singkat
+## Notes
 
-- `tailwind.config.cjs` dan `postcss.config.cjs` ada di repo; jika ingin membangun Tailwind secara manual, pastikan adapter `@tailwindcss/postcss` terpasang.
-- Tidak ada helper `scripts/build_tailwind.cjs` di repo saat ini.
+- This project uses Zustand for state management and Axios for API calls.
+- Tailwind CSS is configured but not fully utilized in the current design.
 
-## Lisensi
+## License
 
-MIT
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
