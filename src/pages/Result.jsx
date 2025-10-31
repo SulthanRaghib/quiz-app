@@ -1,5 +1,5 @@
 import { useQuiz } from "../context/QuizContext";
-import { clearAll } from "../utils/storage";
+import { clearAll, removeData } from "../utils/storage";
 import { useNavigate } from "react-router-dom";
 
 export default function Result() {
@@ -12,7 +12,8 @@ export default function Result() {
 
   const handleRestart = () => {
     resetQuiz();
-    clearAll();
+    // keep selected category and difficulty — only remove saved quiz progress
+    removeData("quizData");
     navigate("/quiz");
   };
 
