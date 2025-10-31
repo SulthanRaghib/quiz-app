@@ -1,16 +1,72 @@
-# React + Vite
+Quiz App (React + Vite)
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Lightweight quiz application built with React and Vite. Uses the Open Trivia DB (opentdb.com) to fetch questions and Tailwind CSS for styling. Designed for quick local development and simple per-user history stored in localStorage.
 
-Currently, two official plugins are available:
+Key points (short):
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- Select username, category, and difficulty
+- Timed questions, answer feedback, and score tracking
+- Per-user history (localStorage), limited to 10 entries
+- Tailwind CSS (v4) with PostCSS adapter; migration to utilities completed for main UI
 
-## React Compiler
+Prerequisites
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- Node.js (recommended >= 20.19 — some environments may require >= 22.12)
+- npm (or compatible client)
 
-## Expanding the ESLint configuration
+Quick start (Windows cmd)
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+```cmd
+npm install
+npm run dev
+```
+
+Build / Preview
+
+```cmd
+npm run build
+npm run preview
+```
+
+Project structure (high level)
+
+- `src/` — React source files
+  - `api/opentdb.js` — API helpers to fetch categories and questions
+  - `components/` — UI components (QuestionCard, Timer, HistoryList, etc.)
+  - `pages/` — App pages (Login, Quiz, Result)
+  - `context/QuizContext.jsx` — quiz state management
+  - `utils/storage.js` — localStorage helpers (saveData, getData, removeData, clearAll)
+- `tailwind.config.cjs`, `postcss.config.cjs` — Tailwind/PostCSS config
+- `scripts/build_tailwind.cjs` — helper to generate `temp.css` for Tailwind verification
+
+LocalStorage keys
+
+- `quizUser` — current username
+- `quizCategory` — selected category object ({ id })
+- `quizDifficulty` — selected difficulty string
+- `quizData` — transient quiz progress (cleared on restart)
+- `quizHistory_<username>` — array of past results (most recent first, max 10)
+
+Notes & troubleshooting
+
+- Tailwind v4 requires the `@tailwindcss/postcss` adapter in `postcss.config.cjs`. If you see missing utilities in dev/build, ensure the content globs in `tailwind.config.cjs` include all JSX/TSX files.
+- If utilities appear missing, you can regenerate a diagnostic CSS file with:
+
+```cmd
+node scripts/build_tailwind.cjs
+```
+
+- If you change Node versions, restart your terminal/IDE to pick up the active Node in PATH.
+
+License
+
+- MIT
+
+Contact / next steps
+
+- For UI changes, edit components in `src/components` and `src/pages`.
+- For API or quiz behavior, see `src/api/opentdb.js` and `src/context/QuizContext.jsx`.
+
+---
+
+Concise, focused, and ready for local development.
